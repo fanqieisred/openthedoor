@@ -1,0 +1,52 @@
+---
+export const prerender = true;
+---
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>分类 - OpenTheDoor</title>
+  <meta name="description" content="文章分类" />
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-white shadow">
+    <nav class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-xl font-bold">OpenTheDoor</a>
+      <div class="space-x-4">
+        <a href="/" class="hover:text-blue-600">首页</a>
+        <a href="/categories" class="hover:text-blue-600">分类</a>
+        <a href="/about" class="hover:text-blue-600">关于</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">分类</h1>
+    <div class="grid grid-cols-2 gap-4">
+      <a href="/categories/ai-tools" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h2 class="text-xl font-semibold">AI 工具</h2>
+        <p class="text-gray-600">工具评测与推荐</p>
+      </a>
+      <a href="/categories/tutorials" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h2 class="text-xl font-semibold">技术教程</h2>
+        <p class="text-gray-600">入门到进阶</p>
+      </a>
+      <a href="/categories/news" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h2 class="text-xl font-semibold">行业资讯</h2>
+        <p class="text-gray-600">每周热点汇总</p>
+      </a>
+      <a href="/categories/qanda" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h2 class="text-xl font-semibold">问答合集</h2>
+        <p class="text-gray-600">常见问题解答</p>
+      </a>
+    </div>
+  </main>
+
+  <footer class="bg-gray-900 text-white mt-12 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p>&copy; 2026 OpenTheDoor. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

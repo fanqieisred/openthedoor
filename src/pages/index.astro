@@ -1,0 +1,49 @@
+---
+export const prerender = true;
+const articles = [
+  { title: "2026年AI工具精选", slug: "ai-tools-2026", date: "2026-07-17" },
+  { title: "Python自动化入门", slug: "python-auto", date: "2026-07-16" },
+  { title: "大模型微调指南", slug: "llm-finetune", date: "2026-07-15" },
+];
+---
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenTheDoor - 科技AI前沿</title>
+  <meta name="description" content="分享最新AI技术、工具评测和技术教程" />
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-white shadow">
+    <nav class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-xl font-bold">OpenTheDoor</a>
+      <div class="space-x-4">
+        <a href="/" class="hover:text-blue-600">首页</a>
+        <a href="/categories" class="hover:text-blue-600">分类</a>
+        <a href="/about" class="hover:text-blue-600">关于</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">最新文章</h1>
+    <div class="space-y-6">
+      {articles.map(article => (
+        <article class="bg-white p-6 rounded-lg shadow">
+          <h2 class="text-xl font-semibold mb-2">
+            <a href={`/posts/${article.slug}`} class="hover:text-blue-600">{article.title}</a>
+          </h2>
+          <p class="text-gray-600 text-sm">{article.date}</p>
+        </article>
+      ))}
+    </div>
+  </main>
+
+  <footer class="bg-gray-900 text-white mt-12 py-8">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p>&copy; 2026 OpenTheDoor. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
