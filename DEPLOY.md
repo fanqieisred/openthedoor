@@ -16,7 +16,12 @@
 - 源目录: `/mnt/f/obsidian_hospital/hos_doc/每日文章/`
 - 功能: 自动读取文章、提取分类、生成路由
 
-### 2. 网站结构
+### 2. 文章内容渲染
+- 使用 `marked` 库将 Markdown 转换为 HTML
+- 从源文件读取文章内容
+- 保留原始格式（标题、列表、表格等）
+
+### 3. 网站结构
 ```
 /dist/
 ├── index.html           # 首页
@@ -29,20 +34,22 @@
 └── ... (共7篇文章)
 ```
 
-### 3. 配置优化
+### 4. 配置优化
 - `vercel.json`: 自动构建配置
 - `astro.config.mjs`: Astro + Tailwind 集成
 
 ## 构建验证
 ```
-13 page(s) built in 516ms
+13 page(s) built in 517ms
 ```
 
-## 文章内容验证
-- 标题: ✓ 正确显示
-- 日期: ✓ 2026-08-09
-- 分类: ✓ 医疗科研/医疗前瞻
-- 标签: ✓ 类型/科研成果 状态/待发布
+## 文章内容验证 ✓
+```html
+<h2>研究背景</h2>
+<p>随着ChatGPT等大语言模型在医疗咨询场景的普及...</p>
+<h2>主要结果</h2>
+<p><strong>高使用率、低信任度并存</strong>：超七成患者...</p>
+```
 
 ## 部署状态
 - GitHub: fanqieisred/openthedoor ✓
@@ -66,6 +73,3 @@ npm run build
 # 推送部署
 git add -A && git commit -m "sync articles" && git push
 ```
-
-## 已知问题
-- 文章内容需手动添加到 frontmatter 或集成 markdown 渲染
