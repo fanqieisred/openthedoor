@@ -1,14 +1,22 @@
 ---
-import { allSlugs, articleMeta, categoryMap } from '../lib/routes.js';
+import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
+const posts = await getCollection('posts');
+const sortedPosts = posts.sort((a, b) => (b.data.date || '').localeCompare(a.data.date || ''));
+
 const categories = {
-  'medical-research': { name: '医疗科研', emoji: '🔬', color: '#3b82f6' },
-  'medical-trends': { name: '医疗前瞻', emoji: '🔮', color: '#8b5cf6' },
-  'medical-insights': { name: '行业洞察', emoji: '💡', color: '#10b981' },
-  'medical-tech': { name: '技术解析', emoji: '⚙️', color: '#f97316' },
+  'medical-research': { name: '医疗科研', emoji: '🔬', color: 'blue' },
+  'medical-trends': { name: '医疗前瞻', emoji: '🔮', color: 'purple' },
+  'medical-insights': { name: '行业洞察', emoji: '💡', color: 'green' },
+  'medical-tech': { name: '技术解析', emoji: '⚙️', color: 'orange' },
 };
+
+const categoryPosts: Record<string, typeof sortedPosts> = {};
+for (const cat of Object.keys(categories)) {
+  categoryPosts[cat] = sortedPosts.filter(p => p.data.category === cat);
+}
 ---
 
 <html lang="zh-CN">
@@ -16,7 +24,6 @@ const categories = {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>分类 - OpenTheDoor</title>
-  <meta name="description" content="文章分类" />
 </head>
 <body class="bg-gray-50 text-gray-900">
   <header class="bg-white shadow">
@@ -31,38 +38,37 @@ const categories = {
   </header>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">分类</h1>
-    <div class="grid grid-cols-2 gap-6 mb-12">
-      {Object.entries(categories).map(([cat, info]) => {
-        const count = allSlugs.filter(slug => articleMeta[slug]?.category === cat).length;
-        return (
-          <a href={`/categories/${cat}`} class={`${info.color} p-6 rounded-lg shadow hover:shadow-lg transition text-white block`}>
-            <h2 class="text-xl font-semibold">{info.emoji} {info.name}</h2>
-            <p class="text-white/80 text-sm mt-1">{count} 篇文章</p>
-          </a>
-        );
-      })}
+    <h1 class="text-3xl font-bold mb-8">文章分类</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {Object.entries(categories).map(([key, cat]) => (
+        <a href={`/categories/${key}`} class="block bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-2xl font-bold">{cat.emoji} {cat.name}</h2>
+              <p class="text-gray-500 mt-1">{categoryPosts[key]?.length || 0} 篇文章</p>
+            </div>
+            <span class="text-4xl">{cat.emoji}</span>
+          </div>
+        </a>
+      ))}
     </div>
 
-    <h2 class="text-2xl font-bold mb-6">全部文章</h2>
-    <div class="space-y-4">
-      {allSlugs.map(slug => {
-        const article = articleMeta[slug];
-        if (!article) return null;
-        const catInfo = categories[article.category] || { name: article.category, color: '#6b7280' };
-        return (
-          <a href={`/posts/${slug}`} class="bg-white p-4 rounded-lg shadow hover:shadow-md transition flex items-center gap-4">
-            <span class="text-2xl">{article.emoji}</span>
-            <div class="flex-1 min-w-0">
-              <p class="font-medium truncate">{article.title}</p>
-              <p class="text-sm text-gray-500">{article.date}</p>
+    <div class="mt-12">
+      <h2 class="text-2xl font-bold mb-6">最新文章</h2>
+      <div class="space-y-4">
+        {sortedPosts.slice(0, 5).map(post => (
+          <a href={`/posts/${post.id}`} class="block bg-white p-4 rounded-lg shadow hover:shadow-md transition">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-bold">{post.data.title}</h3>
+                <p class="text-sm text-gray-500">{post.data.date || '无日期'} · {categories[post.data.category as keyof typeof categories]?.name || '医疗科研'}</p>
+              </div>
+              <span class="text-2xl">{post.data.emoji || '📄'}</span>
             </div>
-            <span class="px-2 py-1 rounded text-xs text-white" style="background: {catInfo.color}">
-              {catInfo.name}
-            </span>
           </a>
-        );
-      })}
+        ))}
+      </div>
     </div>
   </main>
 

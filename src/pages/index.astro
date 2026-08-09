@@ -1,20 +1,18 @@
 ---
-import { allSlugs, articleMeta } from '../lib/routes.js';
+import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
-const meta = articleMeta;
-const sortedSlugs = allSlugs.sort((a, b) => 
-  (meta[b]?.date || '').localeCompare(meta[a]?.date || '')
-);
+const posts = await getCollection('posts');
+const sortedPosts = posts.sort((a, b) => (b.data.date || '0').localeCompare(a.data.date || '0'));
 ---
 
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>最新文章 - OpenTheDoor</title>
-  <meta name="description" content="分享医疗AI前沿研究与行业洞察" />
+  <title>OpenTheDoor - 医疗AI博客</title>
+  <meta name="description" content="医疗AI领域的科研成果与发展前瞻" />
 </head>
 <body class="bg-gray-50 text-gray-900">
   <header class="bg-white shadow">
@@ -29,29 +27,26 @@ const sortedSlugs = allSlugs.sort((a, b) =>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">最新文章</h1>
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold mb-4">医疗AI博客</h1>
+      <p class="text-gray-600">汇聚医疗人工智能领域的最新科研成果与发展前瞻</p>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {sortedSlugs.slice(0, 20).map(slug => {
-        const article = meta[slug];
-        if (!article) return null;
-        return (
-          <a href={`/posts/${slug}`} class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition block">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-lg">{article.emoji}</span>
-              <span class="px-2 py-0.5 rounded text-xs font-medium text-white" style="background: {article.color === 'blue' ? '#3b82f6' : article.color === 'green' ? '#10b981' : article.color === 'purple' ? '#8b5cf6' : '#f97316'}">
-                {article.category}
-              </span>
-              <span class="text-gray-400 text-xs ml-auto">{article.date}</span>
-            </div>
-            <h2 class="text-lg font-semibold mb-2">{article.title}</h2>
-            <div class="flex flex-wrap gap-1">
-              {article.tags.slice(0, 3).map(tag => (
-                <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">{tag}</span>
-              ))}
-            </div>
-          </a>
-        );
-      })}
+      {sortedPosts.map(post => (
+        <a href={`/posts/${post.id}`} class="block bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl">{post.data.emoji || '📄'}</span>
+            <span class="text-sm text-gray-500">{post.data.date || '无日期'}</span>
+          </div>
+          <h2 class="text-xl font-bold mb-2">{post.data.title}</h2>
+          <div class="flex flex-wrap gap-2">
+            {(post.data.tags || []).slice(0, 3).map((tag: string) => (
+              <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">{tag}</span>
+            ))}
+          </div>
+        </a>
+      ))}
     </div>
   </main>
 

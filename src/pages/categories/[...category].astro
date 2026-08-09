@@ -1,30 +1,39 @@
 ---
-import { allSlugs, articleMeta, categoryMap } from '../../lib/routes.js';
+import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-  return ['medical-research', 'medical-trends', 'medical-insights', 'medical-tech'].map(cat => ({
-    params: { category: cat },
-  }));
+  return [
+    { params: { category: 'medical-research' } },
+    { params: { category: 'medical-trends' } },
+    { params: { category: 'medical-insights' } },
+    { params: { category: 'medical-tech' } },
+  ];
 }
 
-const catKey = Astro.params.category;
+interface PageProps {
+  params: { category: string };
+}
+
+const { category } = Astro.params;
+
 const categories = {
-  'medical-research': { name: '医疗科研', emoji: '🔬', color: '#3b82f6' },
-  'medical-trends': { name: '医疗前瞻', emoji: '🔮', color: '#8b5cf6' },
-  'medical-insights': { name: '行业洞察', emoji: '💡', color: '#10b981' },
-  'medical-tech': { name: '技术解析', emoji: '⚙️', color: '#f97316' },
+  'medical-research': { name: '医疗科研', emoji: '🔬' },
+  'medical-trends': { name: '医疗前瞻', emoji: '🔮' },
+  'medical-insights': { name: '行业洞察', emoji: '💡' },
+  'medical-tech': { name: '技术解析', emoji: '⚙️' },
 };
-const catInfo = categories[catKey] || { name: catKey, color: '#6b7280' };
+
+const posts = await getCollection('posts');
+const filteredPosts = posts.filter(p => p.data.category === category).sort((a, b) => (b.data.date || '').localeCompare(a.data.date || ''));
 ---
 
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{catInfo.name} - OpenTheDoor</title>
-  <meta name="description" content={`${catInfo.name} 文章`} />
+  <title>{categories[category as keyof typeof categories]?.name || category} - OpenTheDoor</title>
 </head>
 <body class="bg-gray-50 text-gray-900">
   <header class="bg-white shadow">
@@ -39,24 +48,32 @@ const catInfo = categories[catKey] || { name: catKey, color: '#6b7280' };
   </header>
 
   <main class="max-w-6xl mx-auto px-4 py-8">
-    <div class="mb-6">
-      <a href="/categories" class="text-blue-600 hover:underline text-sm">← 返回分类</a>
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold">{categories[category as keyof typeof categories]?.emoji} {categories[category as keyof typeof categories]?.name}</h1>
+      <p class="text-gray-600 mt-2">{filteredPosts.length} 篇文章</p>
     </div>
-    <h1 class="text-3xl font-bold mb-8">{catInfo.emoji} {catInfo.name}</h1>
+
     <div class="space-y-4">
-      {allSlugs.map(slug => {
-        const article = articleMeta[slug];
-        if (!article || article.category !== catKey) return null;
-        return (
-          <a href={`/posts/${slug}`} class="bg-white p-4 rounded-lg shadow hover:shadow-md transition flex items-center gap-4">
-            <span class="text-2xl">{article.emoji}</span>
-            <div class="flex-1 min-w-0">
-              <p class="font-medium truncate">{article.title}</p>
-              <p class="text-sm text-gray-500">{article.date}</p>
+      {filteredPosts.map(post => (
+        <a href={`/posts/${post.id}`} class="block bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <h2 class="text-xl font-bold mb-2">{post.data.title}</h2>
+              <p class="text-sm text-gray-500 mb-3">{post.data.date || '无日期'}</p>
+              <div class="flex flex-wrap gap-2">
+                {(post.data.tags || []).map((tag: string) => (
+                  <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">{tag}</span>
+                ))}
+              </div>
             </div>
-          </a>
-        );
-      })}
+            <span class="text-3xl ml-4">{post.data.emoji || '📄'}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-8">
+      <a href="/categories" class="text-blue-600 hover:underline">← 返回分类列表</a>
     </div>
   </main>
 
