@@ -1,33 +1,46 @@
-# OpenTheDoor 部署问题说明
-
-## 问题原因
-Vercel CLI 无法认证，无法链接到现有项目。
-
-## 解决方案
-
-### 方案 1：获取新的 Personal Access Token（推荐）
-1. 访问 https://vercel.com/account/tokens
-2. 点击 **Create Token**
-3. 复制新生成的 Token
-4. 运行以下命令：
-   ```bash
-   cd /home/chen/openthedoor
-   npx vercel@48.0.0 login --token <YOUR_TOKEN>
-   ```
-
-### 方案 2：使用 Vercel Dashboard 直接部署
-1. 访问 https://vercel.com/new/import/fanqieisred/openthedoor
-2. 选择 **Import**
-3. 框架会自动识别为 **Astro**
-4. 点击 **Deploy**
-
-### 方案 3：使用 GitHub Integration
-1. 在 Vercel Dashboard 导入 GitHub 仓库
-2. 启用自动部署
-3. 每次 `git push` 自动触发构建
+# OpenTheDoor 部署指南
 
 ## 当前状态
-- ✅ 代码已推送到 GitHub
-- ✅ 本地构建成功（13 页面）
-- ✅ 文章内容已渲染
-- ⏳ Vercel 部署：需要认证
+- ✅ GitHub 仓库：fanqieisred/openthedoor
+- ✅ 本地构建：13 页面，544ms
+- ✅ 文章内容：Markdown 渲染正常
+
+## 部署步骤
+
+### 1. 导入项目
+访问：**https://vercel.com/new/import/fanqieisred/openthedoor**
+
+### 2. 配置（自动识别）
+- Framework: **Astro** ✓
+- Build Command: `astro build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+
+### 3. 点击 Deploy
+等待构建完成（约 1-2 分钟）
+
+### 4. 绑定域名（可选）
+在 Project Settings → Domains 添加：
+- `www.openthedoor.xin`
+
+### 5. 验证
+访问：`https://openthedoor.vercel.app`
+
+## 后续使用
+
+```bash
+# 1. 同步新文章
+python3 scripts/sync_medical_articles.py
+
+# 2. 构建验证
+npm run build
+
+# 3. 推送触发自动部署
+git add -A
+git commit -m "sync articles"
+git push origin master
+```
+
+## 访问地址
+- 预览：https://openthedoor.vercel.app
+- 主域名：https://www.openthedoor.xin（已配置）
