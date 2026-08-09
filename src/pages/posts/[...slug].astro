@@ -1,30 +1,38 @@
 ---
-import { getCollection } from 'astro:content';
-
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  return posts.map(post => ({
-    params: { slug: post.id.replace(/\.md$/, '') },
-    props: { post },
+  const allSlugs = ["00-每日文章汇总-2026-08-09", "01-大语言模型作为健康信息工具患者在耳鼻喉科的使用与信任研究", "02-ai在感染性疾病决策中的应用从床旁咨询到复杂护理", "03-rsna肺栓塞检测挑战赛top2模型外部验证泛化能力评估", "04-ai在肾肿块检测、特征表征与管理中的应用叙事性综述", "05-数字病理ai助力mash纤维化定量评估需求进展与挑战", "06-医疗ai-2026从技术突破走向临床落地"];
+  return allSlugs.map(slug => ({
+    params: { slug },
   }));
 }
 
-interface PageProps {
-  post: any;
-}
+const slug = Astro.params.slug;
 
-const { post } = Astro.props;
-const { data } = post;
+const articleMeta = {
+  "00-每日文章汇总-2026-08-09": {"title": "每日文章汇总 | 2026-08-09", "tags": ["类型/每日文章汇总", "状态/已完成"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "01-大语言模型作为健康信息工具患者在耳鼻喉科的使用与信任研究": {"title": "大语言模型作为健康信息工具：患者在耳鼻喉科的使用与信任研究", "tags": ["类型/科研成果", "状态/待发布"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "02-ai在感染性疾病决策中的应用从床旁咨询到复杂护理": {"title": "AI在感染性疾病决策中的应用：从床旁咨询到复杂护理", "tags": ["类型/科研成果", "状态/待发布"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "03-rsna肺栓塞检测挑战赛top2模型外部验证泛化能力评估": {"title": "RSNA肺栓塞检测挑战赛TOP2模型外部验证：泛化能力评估", "tags": ["类型/科研成果", "状态/待发布"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "04-ai在肾肿块检测、特征表征与管理中的应用叙事性综述": {"title": "AI在肾肿块检测、特征表征与管理中的应用：叙事性综述", "tags": ["类型/科研成果", "状态/待发布"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "05-数字病理ai助力mash纤维化定量评估需求进展与挑战": {"title": "数字病理AI助力MASH纤维化定量评估：需求、进展与挑战", "tags": ["类型/科研成果", "状态/待发布"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "06-医疗ai-2026从技术突破走向临床落地": {"title": "医疗AI 2026：从技术突破走向临床落地", "tags": ["类型/发展前瞻", "状态/待发布"], "date": "2026-08-09", "emoji": "🔮", "color": "purple", "category": "medical-trends"}
+};
+
+const article = articleMeta[slug];
+
+if (!article) {
+  return Astro.redirect('/404');
+}
 ---
 
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{data.title} - OpenTheDoor</title>
-  <meta name="description" content={data.title} />
+  <title>{article.title} - OpenTheDoor</title>
+  <meta name="description" content={article.title} />
 </head>
 <body class="bg-gray-50 text-gray-900">
   <header class="bg-white shadow">
@@ -42,18 +50,18 @@ const { data } = post;
     <article class="bg-white p-8 rounded-lg shadow">
       <div class="mb-4">
         <span class="inline-block px-3 py-1 rounded-full text-sm font-medium text-white bg-blue-600">
-          {data.category || '医疗科研'}
+          {article.category === 'medical-research' ? '医疗科研' : article.category === 'medical-trends' ? '医疗前瞻' : '医疗科研'}
         </span>
-        <span class="text-gray-500 text-sm ml-4">{data.date || '无日期'}</span>
+        <span class="text-gray-500 text-sm ml-4">{article.date}</span>
       </div>
-      <h1 class="text-3xl font-bold mb-6">{data.title}</h1>
+      <h1 class="text-3xl font-bold mb-6">{article.title}</h1>
       <div class="flex flex-wrap gap-2 mb-6">
-        {(data.tags || []).map((tag: string) => (
+        {article.tags.map((tag: string) => (
           <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-sm">{tag}</span>
         ))}
       </div>
       <div class="prose max-w-none">
-        {post.body}
+        <p>文章内容加载中...</p>
       </div>
     </article>
 

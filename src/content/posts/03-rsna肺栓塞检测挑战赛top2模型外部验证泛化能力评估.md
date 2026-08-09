@@ -1,15 +1,13 @@
 ---
+title: RSNA肺栓塞检测挑战赛TOP2模型外部验证：泛化能力评估
+date: 2026-08-09
 tags:
-- 类型/科研成果
-- 状态/待发布
-created: 2026-08-09
-updated: 2026-08-09
-分类: 科研成果
-论文标题: External Validation of a Top-Ranked Model from the RSNA Pulmonary Embolism Detection Challenge
-作者: 待补充
-期刊/会议: Scientific Reports
-DOI:
+  - 类型/科研成果
+  - 状态/待发布
+category: medical-research
+emoji: 🔬
 ---
+
 
 # RSNA肺栓塞检测挑战赛TOP2模型外部验证：泛化能力评估
 

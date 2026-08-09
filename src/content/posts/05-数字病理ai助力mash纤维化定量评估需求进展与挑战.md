@@ -1,15 +1,13 @@
 ---
+title: 数字病理AI助力MASH纤维化定量评估：需求、进展与挑战
+date: 2026-08-09
 tags:
-- 类型/科研成果
-- 状态/待发布
-created: 2026-08-09
-updated: 2026-08-09
-分类: 科研成果
-论文标题: Digital Pathology-Enabled AI for Fibrosis Assessment in MASH
-作者: 待补充
-期刊/会议: Journal of Clinical and Experimental Hepatology
-DOI:
+  - 类型/科研成果
+  - 状态/待发布
+category: medical-research
+emoji: 🔬
 ---
+
 
 # 数字病理AI助力MASH纤维化定量评估：需求、进展与挑战
 
