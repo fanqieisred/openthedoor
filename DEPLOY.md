@@ -32,12 +32,17 @@
 ### 3. 配置优化
 - `vercel.json`: 自动构建配置
 - `astro.config.mjs`: Astro + Tailwind 集成
-- `content.config.ts`: 内容集合定义
 
 ## 构建验证
 ```
-15 page(s) built in 730ms
+13 page(s) built in 516ms
 ```
+
+## 文章内容验证
+- 标题: ✓ 正确显示
+- 日期: ✓ 2026-08-09
+- 分类: ✓ 医疗科研/医疗前瞻
+- 标签: ✓ 类型/科研成果 状态/待发布
 
 ## 部署状态
 - GitHub: fanqieisred/openthedoor ✓
@@ -61,3 +66,6 @@ npm run build
 # 推送部署
 git add -A && git commit -m "sync articles" && git push
 ```
+
+## 已知问题
+- 文章内容需手动添加到 frontmatter 或集成 markdown 渲染
