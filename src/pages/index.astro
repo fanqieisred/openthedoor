@@ -1,22 +1,24 @@
 ---
+import { allSlugs, articleMeta } from '../lib/routes.js';
+
 export const prerender = true;
-const articles = [
-  { title: "2026年AI工具精选", slug: "ai-tools-2026", date: "2026-07-17" },
-  { title: "Python自动化入门", slug: "python-auto", date: "2026-07-16" },
-  { title: "大模型微调指南", slug: "llm-finetune", date: "2026-07-15" },
-];
+
+const meta = articleMeta;
+const sortedSlugs = allSlugs.sort((a, b) => 
+  (meta[b]?.date || '').localeCompare(meta[a]?.date || '')
+);
 ---
 
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OpenTheDoor - 科技AI前沿</title>
-  <meta name="description" content="分享最新AI技术、工具评测和技术教程" />
+  <title>最新文章 - OpenTheDoor</title>
+  <meta name="description" content="分享医疗AI前沿研究与行业洞察" />
 </head>
 <body class="bg-gray-50 text-gray-900">
   <header class="bg-white shadow">
-    <nav class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+    <nav class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
       <a href="/" class="text-xl font-bold">OpenTheDoor</a>
       <div class="space-x-4">
         <a href="/" class="hover:text-blue-600">首页</a>
@@ -26,22 +28,35 @@ const articles = [
     </nav>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 py-8">
+  <main class="max-w-6xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-8">最新文章</h1>
-    <div class="space-y-6">
-      {articles.map(article => (
-        <article class="bg-white p-6 rounded-lg shadow">
-          <h2 class="text-xl font-semibold mb-2">
-            <a href={`/posts/${article.slug}`} class="hover:text-blue-600">{article.title}</a>
-          </h2>
-          <p class="text-gray-600 text-sm">{article.date}</p>
-        </article>
-      ))}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {sortedSlugs.slice(0, 20).map(slug => {
+        const article = meta[slug];
+        if (!article) return null;
+        return (
+          <a href={`/posts/${slug}`} class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition block">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-lg">{article.emoji}</span>
+              <span class="px-2 py-0.5 rounded text-xs font-medium text-white" style="background: {article.color === 'blue' ? '#3b82f6' : article.color === 'green' ? '#10b981' : article.color === 'purple' ? '#8b5cf6' : '#f97316'}">
+                {article.category}
+              </span>
+              <span class="text-gray-400 text-xs ml-auto">{article.date}</span>
+            </div>
+            <h2 class="text-lg font-semibold mb-2">{article.title}</h2>
+            <div class="flex flex-wrap gap-1">
+              {article.tags.slice(0, 3).map(tag => (
+                <span class="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">{tag}</span>
+              ))}
+            </div>
+          </a>
+        );
+      })}
     </div>
   </main>
 
   <footer class="bg-gray-900 text-white mt-12 py-8">
-    <div class="max-w-4xl mx-auto px-4 text-center">
+    <div class="max-w-6xl mx-auto px-4 text-center">
       <p>&copy; 2026 OpenTheDoor. All rights reserved.</p>
     </div>
   </footer>

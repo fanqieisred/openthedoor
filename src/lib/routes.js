@@ -1,16 +1,21 @@
-export const allSlugs = [
-  'ai-tools-2026',
-  'python-auto',
-  'llm-finetune',
-];
+export const allSlugs = ["00-每日文章汇总-2026-08-09", "01-大语言模型作为健康信息工具患者在耳鼻喉科的使用与信任研究", "02-ai在感染性疾病决策中的应用从床旁咨询到复杂护理", "03-rsna肺栓塞检测挑战赛top2模型外部验证泛化能力评估", "04-ai在肾肿块检测特征表征与管理中的应用叙事性综述", "05-数字病理ai助力mash纤维化定量评估需求进展与挑战", "06-医疗ai-2026从技术突破走向临床落地"];
 
 export const articleMeta = {
-  'ai-tools-2026': { title: '2026年AI工具精选', tags: ['AI工具', '评测'], date: '2026-07-17', emoji: '🤖', color: 'blue', category: 'ai-tools' },
-  'python-auto': { title: 'Python自动化入门', tags: ['Python', '教程'], date: '2026-07-16', emoji: '📚', color: 'green', category: 'tutorials' },
-  'llm-finetune': { title: '大模型微调指南', tags: ['LLM', '教程'], date: '2026-07-15', emoji: '📚', color: 'green', category: 'tutorials' },
+  "00-每日文章汇总-2026-08-09": {"title": "每日文章汇总 | 2026-08-09", "tags": ["医疗AI", "科研成果"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "01-大语言模型作为健康信息工具患者在耳鼻喉科的使用与信任研究": {"title": "大语言模型作为健康信息工具：患者在耳鼻喉科的使用与信任研究", "tags": ["医疗AI", "科研成果"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "02-ai在感染性疾病决策中的应用从床旁咨询到复杂护理": {"title": "AI在感染性疾病决策中的应用：从床旁咨询到复杂护理", "tags": ["医疗AI", "科研成果"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "03-rsna肺栓塞检测挑战赛top2模型外部验证泛化能力评估": {"title": "RSNA肺栓塞检测挑战赛TOP2模型外部验证：泛化能力评估", "tags": ["医疗AI", "科研成果"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "04-ai在肾肿块检测特征表征与管理中的应用叙事性综述": {"title": "AI在肾肿块检测、特征表征与管理中的应用：叙事性综述", "tags": ["医疗AI", "科研成果"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "05-数字病理ai助力mash纤维化定量评估需求进展与挑战": {"title": "数字病理AI助力MASH纤维化定量评估：需求、进展与挑战", "tags": ["医疗AI", "科研成果"], "date": "2026-08-09", "emoji": "🔬", "color": "blue", "category": "medical-research"},
+  "06-医疗ai-2026从技术突破走向临床落地": {"title": "医疗AI 2026：从技术突破走向临床落地", "tags": ["医疗AI", "发展前瞻"], "date": "2026-08-09", "emoji": "🔮", "color": "purple", "category": "medical-trends"}
 };
 
-export const categoryMap = { 'ai-tools': 'AI 工具', 'tutorials': '技术教程', 'news': '行业资讯', 'qanda': '问答合集' };
+export const categoryMap = {
+  "medical-research": "医疗科研",
+  "medical-trends": "医疗前瞻",
+  "medical-insights": "行业洞察",
+  "medical-tech": "技术解析"
+};
 
 export const colorMap = {
   blue: 'from-blue-600 to-purple-600',
