@@ -1,0 +1,69 @@
+---
+import { allSlugs, articleMeta, categoryMap } from '../../lib/routes.js';
+
+export const prerender = false;
+
+export async function getStaticPaths() {
+  return allSlugs.map(slug => ({
+    params: { slug },
+    props: { meta: articleMeta[slug] }
+  }));
+}
+
+interface Props {
+  params: Promise<{ slug: string }>;
+  meta: { title: string; tags: string[]; date: string; emoji: string; color: string; category: string };
+}
+
+const { slug } = await Astro.params;
+const meta = Astro.props.meta;
+---
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{meta.title} - OpenTheDoor</title>
+  <meta name="description" content={meta.title} />
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <header class="bg-white shadow">
+    <nav class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-xl font-bold">OpenTheDoor</a>
+      <div class="space-x-4">
+        <a href="/" class="hover:text-blue-600">首页</a>
+        <a href="/categories" class="hover:text-blue-600">分类</a>
+        <a href="/about" class="hover:text-blue-600">关于</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <div class="lg:col-span-3">
+      <article class="bg-white p-8 rounded-lg shadow">
+        <div class="mb-4">
+          <span class="inline-block px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700">
+            {categoryMap[meta.category] || meta.category}
+          </span>
+          <span class="text-gray-500 text-sm ml-4">{meta.date}</span>
+        </div>
+        <h1 class="text-3xl font-bold mb-6">{meta.title}</h1>
+        <div class="flex flex-wrap gap-2 mb-6">
+          {meta.tags.map(tag => (
+            <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-sm">{tag}</span>
+          ))}
+        </div>
+        <div class="prose max-w-none">
+          <p class="text-gray-600 italic">本文内容待补充...</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="bg-gray-900 text-white mt-12 py-8">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <p>&copy; 2026 OpenTheDoor. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
